@@ -395,12 +395,7 @@ function clearMovieResults() {
 
 // Helper to fetch data and automatically handle the authorization header
 async function fetchJSON(url) {
-  const response = await fetch(url, {
-    headers: {
-      Authorization: `Bearer ${apiKey}`,
-      "Content-Type": "application/json",
-    },
-  });
+  const response = await fetch(url);
 
   if (!response.ok) {
     throw new Error(response.statusText);
