@@ -1,0 +1,70 @@
+@import url("https://fonts.googleapis.com/css?family=Source+Sans+Pro");
+
+/* Root Tokens */
+:root {
+  --color-accent: #01b4e4;
+  --color-black: #000000;
+  --color-border: #d7e1e8;
+  --color-border-strong: #cfd9e2;
+  --color-button-muted: #e5ebf0;
+  --color-chip-button-text: #67717d;
+  --color-header: #032541;
+  --color-score-high: rgba(46, 204, 113, 1);
+  --color-score-high-fade: rgba(46, 204, 113, 0.3);
+  --color-score-low: rgba(255, 77, 77, 1);
+  --color-score-low-fade: rgba(255, 77, 77, 0.3);
+  --color-score-medium: rgba(255, 204, 0, 1);
+  --color-score-medium-fade: rgba(255, 204, 0, 0.3);
+  --color-score-none: rgba(209, 209, 209, 1);
+  --color-score-none-fade: rgba(209, 209, 209, 0.3);
+  --color-slider-track: #dbe5ee;
+  --color-surface-soft: #eef3f7;
+  --color-text: #12161b;
+  --color-text-muted: rgba(18, 22, 27, 0.65);
+  --color-text-soft: #6b7a88;
+  --color-white: #ffffff;
+  --font-base: "Source Sans Pro", Arial, sans-serif;
+  --font-size-base: 15px;
+  --font-size-lg: 20px;
+  --font-size-sm: 14px;
+  --font-size-xl: 21px;
+  --font-size-xs: 12px;
+}
+
+/* Reset */
+* {
+  box-sizing: border-box;
+  font-family: var(--font-base);
+  margin: 0;
+  padding: 0;
+}
+
+body.page {
+  background: #f6f8fa;
+  color: var(--color-text);
+  min-height: 100vh;
+}
+
+button,
+input,
+select {
+  font: inherit;
+}
+
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible {
+  outline: 3px solid rgba(1, 180, 228, 0.35);
+  outline-offset: 2px;
+}
+
+/* State Helpers */
+.is-hidden,
+.is-collapsed {
+  display: none;
+}
+
+.is-visible {
+  display: flex;
+}

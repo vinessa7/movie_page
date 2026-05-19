@@ -1,0 +1,37 @@
+/* Shared Page Containers */
+.site-header,
+.site-footer {
+  display: flex;
+  justify-content: center;
+}
+
+.site-header__inner,
+.movies-page__inner,
+.site-footer__inner {
+  margin: 0 auto;
+  max-width: 1400px;
+  padding: 0 40px;
+  width: 100%;
+}
+
+/* Main Layout */
+.movies-page {
+  padding: 36px 0;
+}
+
+.movies-page__title {
+  font-size: 32px;
+  font-weight: 700;
+  line-height: 1.1;
+  margin-bottom: 24px;
+}
+
+.movies-page__layout {
+  align-items: flex-start;
+  display: flex;
+  gap: 32px;
+}
+
+.movies-page__results {
+  flex: 1;
+}

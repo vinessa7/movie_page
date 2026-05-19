@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/lipis/flag-icons@7.3.2/css/flag-icons.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="styles/index.css">
+    <title>Movie Page</title>
+</head>
+
+<body class="page">
+    <!-- Header -->
+    <header class="site-header">
+        <div class="site-header__inner">
+            <button class="site-header__mobile-toggle" type="button" aria-label="Open navigation"
+                aria-expanded="false" aria-controls="site-header__nav">
+                <i class="fa-solid fa-bars" aria-hidden="true"></i>
+            </button>
+            <div class="site-header__branding">
+                <img class="site-header__logo site-header__logo--desktop" src="images/headerLogo.svg" alt="TMDB logo">
+                <img class="site-header__logo site-header__logo--mobile" src="images/footerLogo.svg" alt="TMDB logo">
+                <nav id="site-header__nav" class="site-header__nav" aria-label="Primary">
+                    <a class="site-header__nav-link" href="#">Movies</a>
+                    <a class="site-header__nav-link" href="#">TV Shows</a>
+                    <a class="site-header__nav-link" href="#">People</a>
+                    <a class="site-header__nav-link" href="#">Awards</a>
+                    <a class="site-header__nav-link" href="#">More</a>
+                </nav>
+            </div>
+            <ul class="site-header__actions">
+                <li class="site-header__action"><i class="fa-solid fa-plus" aria-hidden="true"></i></li>
+                <li class="site-header__action site-header__action--locale">EN</li>
+                <li class="site-header__action">Login</li>
+                <li class="site-header__action">JOIN TMDB</li>
+                <li class="site-header__action site-header__action--user" aria-label="Account">
+                    <i class="fa-solid fa-user" aria-hidden="true"></i>
+                </li>
+                <li class="site-header__action site-header__action--search"><i class="fa fa-search" aria-hidden="true"></i></li>
+            </ul>
+        </div>
+    </header>
+
+    <!-- Main content -->
+    <main class="movies-page">
+        <div class="movies-page__inner">
+            <h1 class="movies-page__title">Popular Movies</h1>
+            <div class="movies-page__layout">
+                <!-- Sidebar filters -->
+                <aside class="filters-panel" aria-label="Movie filters">
+                    <section class="filters-panel__card">
+                        <button id="filters-panel__sort-toggle" class="filters-panel__toggle" type="button"
+                            aria-expanded="false" aria-controls="filters-panel__sort-content">
+                            <span>Sort</span>
+                            <span class="filters-panel__toggle-icons">
+                                <i id="filters-panel__sort-icon-collapsed" class="fa fa-angle-right" aria-hidden="true"></i>
+                                <i id="filters-panel__sort-icon-expanded" class="fa fa-angle-down is-hidden" aria-hidden="true"></i>
+                            </span>
+                        </button>
+                        <div id="filters-panel__sort-content" class="filters-panel__content filters-panel__content--sort is-collapsed"
+                            aria-hidden="true">
+                            <label class="filters-panel__label" for="filters-panel__sort-select">Sort Results by</label>
+                            <select id="filters-panel__sort-select"
+  class="filters-panel__control filters-panel__select--trigger">
+                                <option value="popularity.desc">Popularity Descending</option>
+                                <option value="popularity.asc">Popularity Ascending</option>
+                                <option value="vote_average.desc">Rating Descending</option>
+                                <option value="vote_average.asc">Rating Ascending</option>
+                                <option value="release_date.desc">Release Date Descending</option>
+                                <option value="release_date.asc">Release Date Ascending</option>
+                                <option value="original_title.asc">Title (A-Z)</option>
+                                <option value="original_title.desc">Title (Z-A)</option>
+                            </select>
+                        </div>
+                    </section>
+
+                    <section class="filters-panel__card">
+                        <button id="filters-panel__filter-toggle" class="filters-panel__toggle" type="button"
+                            aria-expanded="true" aria-controls="filters-panel__filter-content">
+                            <span>Filters</span>
+                            <span class="filters-panel__toggle-icons">
+                                <i id="filters-panel__filter-icon-collapsed" class="fa fa-angle-right is-hidden" aria-hidden="true"></i>
+                                <i id="filters-panel__filter-icon-expanded" class="fa fa-angle-down" aria-hidden="true"></i>
+                            </span>
+                        </button>
+                        <div id="filters-panel__filter-content" class="filters-panel__content" aria-hidden="false">
+                            <div class="filters-panel__group">
+                                <p class="filters-panel__label">Show Me</p>
+                                <label class="filters-panel__option">
+                                    <input type="radio" name="filters-panel__visibility"
+                                        id="filters-panel__show-everything" checked>
+                                    <span>Everything</span>
+                                </label>
+                                <label class="filters-panel__option">
+                                    <input type="radio" name="filters-panel__visibility"
+                                        id="filters-panel__show-not-seen" disabled>
+                                    <span>Movies I Haven't Seen</span>
+                                </label>
+                                <label class="filters-panel__option">
+                                    <input type="radio" name="filters-panel__visibility" id="filters-panel__show-seen"
+                                        disabled>
+                                    <span>Movies I Have Seen</span>
+                                </label>
+                            </div>
+
+                            <div class="filters-panel__group">
+                                <p class="filters-panel__label">Release Dates</p>
+                                <label class="filters-panel__option">
+                                    <input type="checkbox" id="filters-panel__release-scope-toggle" checked>
+                                    <span>Search all releases?</span>
+                                </label>
+
+                                <div id="filters-panel__release-options" class="filters-panel__nested is-hidden">
+                                    <div class="filters-panel__country-scope">
+                                        <label class="filters-panel__option">
+                                            <input type="checkbox" id="filters-panel__country-scope-toggle" checked>
+                                            <span>Search all countries?</span>
+                                        </label>
+
+                                        <div id="filters-panel__country-select-wrapper"
+                                            class="filters-panel__field filters-panel__field--stacked is-hidden">
+                                            <div class="filters-panel__combobox">
+                                                <input type="hidden" id="filters-panel__country-select" value="">
+                                                <button id="filters-panel__country-trigger" class="filters-panel__control filters-panel__select filters-panel__select--trigger"
+                                                    type="button" aria-expanded="false" aria-controls="filters-panel__country-menu">
+                                                    <span id="filters-panel__country-trigger-label">Select country</span>
+                                                    <i class="fa-solid fa-caret-down" aria-hidden="true"></i>
+                                                </button>
+                                                <div id="filters-panel__country-menu" class="filters-panel__popup filters-panel__menu is-hidden">
+                                                    <div class="filters-panel__menu-search">
+                                                        <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
+                                                        <input id="filters-panel__country-search" class="filters-panel__control filters-panel__control--search"
+                                                            type="text" placeholder="Filter" autocomplete="off" aria-label="Filter countries">
+                                                    </div>
+                                                    <div id="filters-panel__country-options" class="filters-panel__menu-options"
+                                                        role="listbox" aria-label="Country options"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <label class="filters-panel__option">
+                                        <input type="checkbox" id="filters-panel__release-type-limited" checked>
+                                        <span>Theatrical (limited)</span>
+                                    </label>
+                                    <label class="filters-panel__option">
+                                        <input type="checkbox" id="filters-panel__release-type-theatrical" checked>
+                                        <span>Theatrical</span>
+                                    </label>
+                                    <label class="filters-panel__option">
+                                        <input type="checkbox" id="filters-panel__release-type-premiere" checked>
+                                        <span>Premiere</span>
+                                    </label>
+                                    <label class="filters-panel__option">
+                                        <input type="checkbox" id="filters-panel__release-type-digital" checked>
+                                        <span>Digital</span>
+                                    </label>
+                                    <label class="filters-panel__option">
+                                        <input type="checkbox" id="filters-panel__release-type-physical" checked>
+                                        <span>Physical</span>
+                                    </label>
+                                    <label class="filters-panel__option">
+                                        <input type="checkbox" id="filters-panel__release-type-tv" checked>
+                                        <span>TV</span>
+                                    </label>
+                                </div>
+
+                                <div class="filters-panel__date-range">
+                                    <div class="filters-panel__date-row">
+                                        <label class="filters-panel__date-label"
+                                            for="filters-panel__date-from">From:</label>
+                                        <span class="filters-panel__date-field">
+                                            <input type="text" class="filters-panel__date-text"
+                                                id="filters-panel__date-from-text" autocomplete="off" readonly>
+                                            <button class="filters-panel__date-button" type="button"
+                                                aria-label="Open from date picker">
+                                                <i class="fa-regular fa-calendar" aria-hidden="true"></i>
+                                            </button>
+                                            <input type="date" id="filters-panel__date-from" name="date-from"
+                                                min="2000-01-01" max="2099-12-31">
+                                        </span>
+                                    </div>
+                                    <div class="filters-panel__date-row">
+                                        <label class="filters-panel__date-label"
+                                            for="filters-panel__date-to">To:</label>
+                                        <span class="filters-panel__date-field">
+                                            <input type="text" class="filters-panel__date-text"
+                                                id="filters-panel__date-to-text" autocomplete="off" readonly>
+                                            <button class="filters-panel__date-button" type="button"
+                                                aria-label="Open to date picker">
+                                                <i class="fa-regular fa-calendar" aria-hidden="true"></i>
+                                            </button>
+                                            <input type="date" id="filters-panel__date-to" name="date-to"
+                                                min="2000-01-01" max="2099-12-31">
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="filters-panel__group">
+                                <p class="filters-panel__label">Genres</p>
+                                <div class="filters-panel__genre-list"></div>
+                            </div>
+
+                            <div class="filters-panel__group">
+                                <p class="filters-panel__label">Certification</p>
+                            </div>
+
+                            <div class="filters-panel__group filters-panel__group--language">
+                                <div class="filters-panel__field filters-panel__field--stacked">
+                                    <label class="filters-panel__field-label filters-panel__field-label--with-help"
+                                        for="filters-panel__language-trigger">
+                                        <span>Language</span>
+                                        <span class="filters-panel__help" tabindex="0"
+                                            data-tooltip="Filter items based on their original language."
+                                            aria-label="Filter items based on their original language.">
+                                            <i class="fa-solid fa-circle-question" aria-hidden="true"></i>
+                                        </span>
+                                    </label>
+                                    <div class="filters-panel__combobox">
+                                        <input type="hidden" id="filters-panel__language-select" value="None Selected">
+                                        <button id="filters-panel__language-trigger" class="filters-panel__control filters-panel__select filters-panel__select--trigger"
+                                            type="button" aria-expanded="false" aria-controls="filters-panel__language-menu">
+                                            <span id="filters-panel__language-trigger-label">None Selected</span>
+                                            <i class="fa-solid fa-caret-down" aria-hidden="true"></i>
+                                        </button>
+                                        <div id="filters-panel__language-menu" class="filters-panel__popup filters-panel__menu is-hidden">
+                                            <div class="filters-panel__menu-search">
+                                                <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
+                                                <input id="filters-panel__language-search" class="filters-panel__control filters-panel__control--search"
+                                                    type="text" placeholder="Filter" autocomplete="off" aria-label="Filter languages">
+                                            </div>
+                                            <div id="filters-panel__language-options" class="filters-panel__menu-options"
+                                                role="listbox" aria-label="Language options"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="filters-panel__group">
+                                <p class="filters-panel__label">User Score</p>
+                                <div id="range-slider__display--score" class="range-slider__display">
+                                    <span id="range-slider__label-min--score" class="range-slider__value">0</span>
+                                    <span class="range-slider__separator">-</span>
+                                    <span id="range-slider__label-max--score" class="range-slider__value">10</span>
+                                </div>
+                                <div id="range-slider__container--score" class="range-slider">
+                                    <div class="range-slider__ticks">
+                                        <div class="range-slider__tick-group">
+                                            <div class="range-slider__tick range-slider__tick--major"></div>
+                                            <span>0</span>
+                                        </div>
+                                        <div class="range-slider__tick-group">
+                                            <div class="range-slider__tick"></div>
+                                        </div>
+                                        <div class="range-slider__tick-group">
+                                            <div class="range-slider__tick"></div>
+                                        </div>
+                                        <div class="range-slider__tick-group">
+                                            <div class="range-slider__tick"></div>
+                                        </div>
+                                        <div class="range-slider__tick-group">
+                                            <div class="range-slider__tick"></div>
+                                        </div>
+                                        <div class="range-slider__tick-group">
+                                            <div class="range-slider__tick range-slider__tick--major"></div>
+                                            <span>5</span>
+                                        </div>
+                                        <div class="range-slider__tick-group">
+                                            <div class="range-slider__tick"></div>
+                                        </div>
+                                        <div class="range-slider__tick-group">
+                                            <div class="range-slider__tick"></div>
+                                        </div>
+                                        <div class="range-slider__tick-group">
+                                            <div class="range-slider__tick"></div>
+                                        </div>
+                                        <div class="range-slider__tick-group">
+                                            <div class="range-slider__tick"></div>
+                                        </div>
+                                        <div class="range-slider__tick-group">
+                                            <div class="range-slider__tick range-slider__tick--major"></div>
+                                            <span>10</span>
+                                        </div>
+                                    </div>
+                                    <div class="range-slider__track"></div>
+                                    <div id="range-slider__fill--score" class="range-slider__fill"></div>
+                                    <div id="range-slider__thumb-min--score"
+                                        class="range-slider__thumb range-slider__thumb--min"></div>
+                                    <div id="range-slider__thumb-max--score"
+                                        class="range-slider__thumb range-slider__thumb--max"></div>
+                                </div>
+                            </div>
+
+                            <div class="filters-panel__group">
+                                <p class="filters-panel__label">Minimum User Votes</p>
+                                <div id="range-slider__display--votes" class="range-slider__display">
+                                    <span id="range-slider__label-max--votes" class="range-slider__value">0</span>
+                                    <span class="range-slider__unit">votes</span>
+                                </div>
+                                <div id="range-slider__container--votes" class="range-slider range-slider--single">
+                                    <div class="range-slider__ticks">
+                                        <div class="range-slider__tick-group">
+                                            <div class="range-slider__tick range-slider__tick--major"></div>
+                                            <span>0</span>
+                                        </div>
+                                        <div class="range-slider__tick-group">
+                                            <div class="range-slider__tick"></div>
+                                        </div>
+                                        <div class="range-slider__tick-group">
+                                            <div class="range-slider__tick range-slider__tick--major"></div>
+                                            <span>100</span>
+                                        </div>
+                                        <div class="range-slider__tick-group">
+                                            <div class="range-slider__tick"></div>
+                                        </div>
+                                        <div class="range-slider__tick-group">
+                                            <div class="range-slider__tick range-slider__tick--major"></div>
+                                            <span>200</span>
+                                        </div>
+                                        <div class="range-slider__tick-group">
+                                            <div class="range-slider__tick"></div>
+                                        </div>
+                                        <div class="range-slider__tick-group">
+                                            <div class="range-slider__tick range-slider__tick--major"></div>
+                                            <span>300</span>
+                                        </div>
+                                        <div class="range-slider__tick-group">
+                                            <div class="range-slider__tick"></div>
+                                        </div>
+                                        <div class="range-slider__tick-group">
+                                            <div class="range-slider__tick range-slider__tick--major"></div>
+                                            <span>400</span>
+                                        </div>
+                                        <div class="range-slider__tick-group">
+                                            <div class="range-slider__tick"></div>
+                                        </div>
+                                        <div class="range-slider__tick-group">
+                                            <div class="range-slider__tick range-slider__tick--major"></div>
+                                            <span>500</span>
+                                        </div>
+                                    </div>
+                                    <div class="range-slider__track"></div>
+                                    <div id="range-slider__fill--votes" class="range-slider__fill"></div>
+                                    <div id="range-slider__thumb-max--votes"
+                                        class="range-slider__thumb range-slider__thumb--max"></div>
+                                </div>
+                            </div>
+
+                            <div class="filters-panel__group">
+                                <p class="filters-panel__label">Runtime</p>
+                                <div id="range-slider__display--runtime" class="range-slider__display">
+                                    <span id="range-slider__label-min--runtime" class="range-slider__value">0</span>
+                                    <span class="range-slider__separator">-</span>
+                                    <span id="range-slider__label-max--runtime" class="range-slider__value">400</span>
+                                </div>
+                                <div id="range-slider__container--runtime" class="range-slider">
+                                    <div class="range-slider__ticks">
+                                        <div class="range-slider__tick-group">
+                                            <div class="range-slider__tick range-slider__tick--major"></div>
+                                            <span>0</span>
+                                        </div>
+                                        <div class="range-slider__tick-group">
+                                            <div class="range-slider__tick"></div>
+                                        </div>
+                                        <div class="range-slider__tick-group">
+                                            <div class="range-slider__tick"></div>
+                                        </div>
+                                        <div class="range-slider__tick-group">
+                                            <div class="range-slider__tick range-slider__tick--major"></div>
+                                            <span>120</span>
+                                        </div>
+                                        <div class="range-slider__tick-group">
+                                            <div class="range-slider__tick"></div>
+                                        </div>
+                                        <div class="range-slider__tick-group">
+                                            <div class="range-slider__tick"></div>
+                                        </div>
+                                        <div class="range-slider__tick-group">
+                                            <div class="range-slider__tick range-slider__tick--major"></div>
+                                            <span>240</span>
+                                        </div>
+                                        <div class="range-slider__tick-group">
+                                            <div class="range-slider__tick"></div>
+                                        </div>
+                                        <div class="range-slider__tick-group">
+                                            <div class="range-slider__tick"></div>
+                                        </div>
+                                        <div class="range-slider__tick-group">
+                                            <div class="range-slider__tick range-slider__tick--major"></div>
+                                            <span>360</span>
+                                        </div>
+                                        <div class="range-slider__tick-group">
+                                            <div class="range-slider__tick"></div>
+                                        </div>
+                                    </div>
+                                    <div class="range-slider__track"></div>
+                                    <div id="range-slider__fill--runtime" class="range-slider__fill"></div>
+                                    <div id="range-slider__thumb-min--runtime"
+                                        class="range-slider__thumb range-slider__thumb--min"></div>
+                                    <div id="range-slider__thumb-max--runtime"
+                                        class="range-slider__thumb range-slider__thumb--max"></div>
+                                </div>
+                            </div>
+                            <div class="filters-panel__group">
+                                <p class="filters-panel__label">Keywords</p>
+                                <div class="keyword-filter">
+                                    <input type="text" id="keyword-filter__input" class="keyword-filter__input"
+                                        placeholder="Filter by keywords..." autocomplete="off">
+                                    <div id="keyword-filter__suggestions" class="keyword-filter__suggestions"></div>
+                                </div>
+                                <div id="keyword-filter__selected" class="keyword-filter__selected"></div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <button id="filters-panel__submit" class="filters-panel__submit" type="button">Search</button>
+                    <button id="filters-panel__submit-sticky"
+                        class="filters-panel__submit filters-panel__submit--sticky" type="button">Search</button>
+                </aside>
+
+                <!-- Results -->
+                <section class="movies-page__results" aria-label="Movie results">
+                    <div class="movie-grid">
+                        <!-- Movie card template used by JavaScript -->
+                        <div class="movie-grid__template is-hidden" aria-hidden="true">
+                            <article class="movie-card">
+                                <div class="movie-card__media">
+                                    <img src="images/alt.jpg" alt="Movie poster" class="movie-card__image"
+                                        loading="lazy" decoding="async">
+                                    <div class="movie-card__rating-badge">
+                                        <div class="movie-card__rating-ring">
+                                            <div class="movie-card__rating-text">
+                                                <span class="movie-card__rating-value"></span>
+                                                <span class="movie-card__rating-sign">%</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <button type="button" class="movie-card__menu" aria-label="More options">
+                                    <i class="fa fa-ellipsis-h" aria-hidden="true"></i>
+                                </button>
+                                <div class="movie-card__content">
+                                    <h3 class="movie-card__title">Movie Name</h3>
+                                    <p class="movie-card__date">March 27, 2026</p>
+                                </div>
+                            </article>
+                        </div>
+                    </div>
+                    <p id="movies-page__status" class="movies-page__status is-hidden" role="status" aria-live="polite"></p>
+                    <button type="button" id="movies-page__load-more" class="movies-page__load-more">Load More</button>
+                </section>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <div class="site-footer__inner">
+            <div class="site-footer__brand">
+                <img class="site-footer__logo" src="images/footerLogo.svg" alt="TMDB logo">
+                <p class="site-footer__cta">Join the community</p>
+            </div>
+
+            <div class="site-footer__columns">
+                <div class="site-footer__column">
+                    <h4 class="site-footer__title">The Basics</h4>
+                    <a class="site-footer__link" href="#">About TMDB</a>
+                    <a class="site-footer__link" href="#">Contact Us</a>
+                    <a class="site-footer__link" href="#">API Documentation</a>
+                    <a class="site-footer__link" href="#">API for Business</a>
+                    <a class="site-footer__link" href="#">System Status</a>
+                </div>
+                <div class="site-footer__column">
+                    <h4 class="site-footer__title">Get Involved</h4>
+                    <a class="site-footer__link" href="#">Contribution Bible</a>
+                    <a class="site-footer__link" href="#">Add New Movie</a>
+                    <a class="site-footer__link" href="#">Add New TV Show</a>
+                </div>
+                <div class="site-footer__column">
+                    <h4 class="site-footer__title">Community</h4>
+                    <a class="site-footer__link" href="#">Guidelines</a>
+                    <a class="site-footer__link" href="#">Discussions</a>
+                    <a class="site-footer__link" href="#">Leaderboard</a>
+                    <a class="site-footer__link" href="#">Support Forums</a>
+                </div>
+                <div class="site-footer__column">
+                    <h4 class="site-footer__title">Legal</h4>
+                    <a class="site-footer__link" href="#">Terms of Use</a>
+                    <a class="site-footer__link" href="#">API Terms of Use</a>
+                    <a class="site-footer__link" href="#">Privacy Policy</a>
+                    <a class="site-footer__link" href="#">DMCA Policy</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="sliders.js"></script>
+    <script src="index.js"></script>
+</body>
+
+</html>
