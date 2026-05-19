@@ -1,42 +1,19 @@
-export default async function handler(request, response) {
-try {
-const apiKey = process.env.apiKey;
+export default async function handler(req, res) {
+  try {
+    const { endpoint, ...query } = req.query;
 
-```
-if (!apiKey) {
-  return response.status(500).json({
-    error: "Missing apiKey environment variable",
-  });
-}
+    const params = new URLSearchParams(query);
 
-const { endpoint, ...query } = request.query;
+    const url = `https://api.themoviedb.org/3/${endpoint}?api_key=${process.env.apiKey}&${params}`;
 
-if (!endpoint) {
-  return response.status(400).json({
-    error: "Missing endpoint parameter",
-  });
-}
+    const response = await fetch(url);
 
-const params = new URLSearchParams(query);
+    const data = await response.json();
 
-const tmdbUrl =
-  `https://api.themoviedb.org/3/${endpoint}?${params.toString()}`;
-
-const tmdbResponse = await fetch(tmdbUrl, {
-  headers: {
-    Authorization: `Bearer ${apiKey}`,
-    accept: "application/json",
-  },
-});
-
-const data = await tmdbResponse.json();
-
-return response.status(tmdbResponse.status).json(data);
-```
-
-} catch (error) {
-return response.status(500).json({
-error: error.message,
-});
-}
+    return res.status(response.status).json(data);
+  } catch (error) {
+    return res.status(500).json({
+      error: error.message,
+    });
+  }
 }
