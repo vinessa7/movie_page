@@ -268,7 +268,7 @@ function getSliderValues() {
 
 // The core logic that assembles the complex URL needed to filter movies
 function generateQueryURL() {
-  const url = new URL(endpoints.discover);
+  const url = new URL(endpoints.discover, window.location.origin);
   const params = url.searchParams;
   const fromDate = dom.dateFromHidden.value || "";
   const toDate = dom.dateToHidden.value || "";
