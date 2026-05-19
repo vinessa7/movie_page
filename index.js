@@ -66,11 +66,11 @@ const dom = {
 
 // Links for various data categories
 const endpoints = {
-  countries: "https://api.themoviedb.org/3/configuration/countries",
-  languages: "https://api.themoviedb.org/3/configuration/languages",
-  genres: "https://api.themoviedb.org/3/genre/movie/list",
-  discover: "https://api.themoviedb.org/3/discover/movie",
-  keywords: "https://api.themoviedb.org/3/search/keyword",
+countries: "/api/movies?endpoint=configuration/countries",
+languages: "/api/movies?endpoint=configuration/languages",
+genres: "/api/movies?endpoint=genre/movie/list",
+discover: "/api/movies?endpoint=discover/movie",
+keywords: "/api/movies?endpoint=search/keyword",
 };
 
 // Gicing them integer value to make request to TMDB
